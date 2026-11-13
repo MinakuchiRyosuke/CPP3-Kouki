@@ -12,15 +12,18 @@ namespace
     struct CBParam // register(b0)
     {
         Color baseColor;
+        float4 waveTime;
     };
     constexpr int CBSlot = 0;
 
     Color colorTable[] =
     {
         Color(1, 1, 1),
+        Color(1, 0, 0),
         Color(1, 1, 0),
         Color(1, 0, 1),
         Color(0, 1, 1),
+        Color(0, 0, 1),
         Color(0.5, 0, 0),
         Color(0, 0.5, 0),
         Color(0, 0, 0.5),
@@ -48,6 +51,18 @@ void CBController::Update()
     {
         colorIndex = (colorIndex + 1) % tableSize;
     }
+
+    if (Input::GetKeyDown(Keyboard::N))
+    {
+        waveTime.x += 0.5;
+    }
+
+    if (Input::GetKeyDown(Keyboard::M))
+    {
+        waveTime.x -= 0.5;
+    }
+
+    colorIndex = (colorIndex + 1) % tableSize + time.x;
 
 
     CBParam cb;
