@@ -12,7 +12,7 @@ namespace
     struct CBParam // register(b0)
     {
         Color baseColor;
-        float waveTime;
+        Vector4 waveTime;
     };
     constexpr int CBSlot = 0;
 
@@ -70,7 +70,7 @@ void CBController::Update()
     // カラーテーブルから現在のインデクスの色を設定
     cb.baseColor = colorTable[colorIndex];
 
-    cb.waveTime = _waveTime;
+    cb.waveTime.x = _waveTime;
 
     // 定数バッファを更新
     D3DManager::getInstance()->GetContext()->UpdateSubresource(constantBuffer.Get(), 0, nullptr, &cb, 0, 0);
