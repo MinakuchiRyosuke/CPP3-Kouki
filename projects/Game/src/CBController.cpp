@@ -12,7 +12,7 @@ namespace
     struct CBParam // register(b0)
     {
         Color baseColor;
-        float4 waveTime;
+        Vector4 waveTime;
     };
     constexpr int CBSlot = 0;
 
@@ -54,21 +54,23 @@ void CBController::Update()
 
     if (Input::GetKeyDown(Keyboard::N))
     {
-        waveTime.x += 0.5;
+        _waveTime += 0.5;
     }
 
     if (Input::GetKeyDown(Keyboard::M))
     {
-        waveTime.x -= 0.5;
+        _waveTime -= 0.5;
     }
 
-    colorIndex = (colorIndex + 1) % tableSize + time.x;
+    //colorIndex = (colorIndex + 1) % tableSize;
 
 
     CBParam cb;
 
     // カラーテーブルから現在のインデクスの色を設定
     cb.baseColor = colorTable[colorIndex];
+
+    cb.waveTime.x = _waveTime;
 
     // 定数バッファを更新
     D3DManager::getInstance()->GetContext()->UpdateSubresource(constantBuffer.Get(), 0, nullptr, &cb, 0, 0);
